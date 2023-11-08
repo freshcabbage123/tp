@@ -28,6 +28,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.address.testutil.TypicalPersons.AMY;
@@ -192,5 +193,50 @@ public class AddPersonCommandParserTest {
         assertParseFailure(parser, PREAMBLE_NON_EMPTY + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
                         + ADDRESS_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddPersonCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_invalidValueLength_failure() {
+        // invalid name (too long)
+        String invalidName = "very".repeat(10) + "long".repeat(25) + "name"; // more than 100 characters
+        assertParseFailure(parser, PREFIX_NAME + invalidName + PHONE_DESC_BOB + EMAIL_DESC_BOB
+                + ADDRESS_DESC_BOB
+                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                AddPersonCommand.MESSAGE_USAGE));
+
+        // invalid phone (too short)
+        String invalidPhoneShort = "12"; // less than 3 characters
+        assertParseFailure(parser, NAME_DESC_BOB + PREFIX_PHONE + invalidPhoneShort + EMAIL_DESC_BOB
+                + ADDRESS_DESC_BOB
+                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                AddPersonCommand.MESSAGE_USAGE));
+
+        // invalid phone (too long)
+        String invalidPhoneLong = "1".repeat(21); // more than 20 characters
+        assertParseFailure(parser, NAME_DESC_BOB + PREFIX_PHONE + invalidPhoneLong + EMAIL_DESC_BOB
+                + ADDRESS_DESC_BOB
+                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                AddPersonCommand.MESSAGE_USAGE));
+
+        // invalid email (too short)
+        String invalidEmailShort = "a@b.c"; // less than 5 characters
+        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + PREFIX_EMAIL + invalidEmailShort
+                + ADDRESS_DESC_BOB
+                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                AddPersonCommand.MESSAGE_USAGE));
+
+        // invalid address (too long)
+        String invalidAddress = "123 Fake Street, ".repeat(20); // more than 200 characters
+        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + PREFIX_ADDRESS
+                + invalidAddress
+                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                AddPersonCommand.MESSAGE_USAGE));
+
+        // invalid tag (too long)
+        String invalidTag = "friend".repeat(6); // more than 30 characters
+        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+                + ADDRESS_DESC_BOB
+                + " " + PREFIX_TAG + invalidTag, String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                AddPersonCommand.MESSAGE_USAGE));
     }
 }
