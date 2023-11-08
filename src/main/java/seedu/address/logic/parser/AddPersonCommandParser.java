@@ -45,14 +45,14 @@ public class AddPersonCommandParser implements Parser<AddPersonCommand> {
         Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get());
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
-        // tag's limit is 30 characters, but we set it to 32 to account for the square brackets that encapsulate it
-        if (name.toString().isEmpty() || name.toString().length() > 100
-                || phone.toString().length() < 3 || phone.toString().length() > 20
-                || email.toString().length() < 6 || address.toString().length() > 200
+        // Phone number's lower limit is 3, but it is tested in PhoneTest.java
+        // Tag's upper limit is 30 characters, but we set it to 32 to account for square brackets that encapsulate it
+        if (name.toString().isEmpty() || name.toString().length() > 100 || phone.toString().length() > 20
+                || email.toString().length() < 5 || email.toString().length() > 100
+                || address.toString().length() > 200
                 || tagList.stream().anyMatch(tag -> tag.toString().length() > 32)) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddPersonCommand.MESSAGE_USAGE));
         }
-
         Person person = new Person(name, phone, email, address, tagList);
 
         return new AddPersonCommand(person);

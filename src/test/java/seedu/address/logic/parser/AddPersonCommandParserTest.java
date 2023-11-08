@@ -198,42 +198,42 @@ public class AddPersonCommandParserTest {
     @Test
     public void parse_invalidValueLength_failure() {
         // invalid name (too long)
-        String invalidName = "very".repeat(10) + "long".repeat(25) + "name"; // more than 100 characters
-        assertParseFailure(parser, PREFIX_NAME + invalidName + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB
-                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                AddPersonCommand.MESSAGE_USAGE));
-
-        // invalid phone (too short)
-        String invalidPhoneShort = "12"; // less than 3 characters
-        assertParseFailure(parser, NAME_DESC_BOB + PREFIX_PHONE + invalidPhoneShort + EMAIL_DESC_BOB
+        String invalidName = "very".repeat(23) + "long name"; // more than 100 characters
+        assertParseFailure(parser, " " + PREFIX_NAME + invalidName + PHONE_DESC_BOB + EMAIL_DESC_BOB
                 + ADDRESS_DESC_BOB
                 + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                 AddPersonCommand.MESSAGE_USAGE));
 
         // invalid phone (too long)
         String invalidPhoneLong = "1".repeat(21); // more than 20 characters
-        assertParseFailure(parser, NAME_DESC_BOB + PREFIX_PHONE + invalidPhoneLong + EMAIL_DESC_BOB
+        assertParseFailure(parser, NAME_DESC_BOB + " " + PREFIX_PHONE + invalidPhoneLong + EMAIL_DESC_BOB
                 + ADDRESS_DESC_BOB
                 + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                 AddPersonCommand.MESSAGE_USAGE));
 
         // invalid email (too short)
-        String invalidEmailShort = "a@b.c"; // less than 5 characters
-        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + PREFIX_EMAIL + invalidEmailShort
+        String invalidEmailShort = "t@gg"; // less than 5 characters
+        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + " " + PREFIX_EMAIL + invalidEmailShort
+                + ADDRESS_DESC_BOB
+                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                AddPersonCommand.MESSAGE_USAGE));
+
+        // invalid email (too long)
+        String invalidEmailLong = "f" + "12345".repeat(18) + "@gmail.com"; // more than 100 characters
+        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + " " + PREFIX_EMAIL + invalidEmailLong
                 + ADDRESS_DESC_BOB
                 + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                 AddPersonCommand.MESSAGE_USAGE));
 
         // invalid address (too long)
-        String invalidAddress = "123 Fake Street, ".repeat(20); // more than 200 characters
-        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + PREFIX_ADDRESS
+        String invalidAddress = "123 Fake Street".repeat(14); // more than 200 characters
+        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + " " + PREFIX_ADDRESS
                 + invalidAddress
                 + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                 AddPersonCommand.MESSAGE_USAGE));
 
         // invalid tag (too long)
-        String invalidTag = "friend".repeat(6); // more than 30 characters
+        String invalidTag = "friend".repeat(5) + "1"; // more than 30 characters
         assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
                 + ADDRESS_DESC_BOB
                 + " " + PREFIX_TAG + invalidTag, String.format(MESSAGE_INVALID_COMMAND_FORMAT,
