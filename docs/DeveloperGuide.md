@@ -1404,8 +1404,7 @@ testers are expected to do more <i>exploratory testing</i>.
 
 ## **Appendix: Planned Enhancements**
 
-### 1. We plan to make error messages more specific. For example, we will specify the error of "Tag names should be 
-   alphanumeric" to "Tag names should be ONLY alphanumeric". This will help users to understand the error better.
+1. We plan to make error messages more specific. For example, we will specify the error of "Tag names should be alphanumeric" to "Tag names should be ONLY alphanumeric". This will help users to understand the error better.
 
 ### 2. Character Limits for Person Fields and Tasks
 
